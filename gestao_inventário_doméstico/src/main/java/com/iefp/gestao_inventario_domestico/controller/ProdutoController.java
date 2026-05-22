@@ -2,6 +2,7 @@ package com.iefp.gestao_inventario_domestico.controller;
 
 import com.iefp.gestao_inventario_domestico.model.Produto;
 import com.iefp.gestao_inventario_domestico.service.CategoriaService;
+import com.iefp.gestao_inventario_domestico.service.LocalizacaoService;
 import com.iefp.gestao_inventario_domestico.service.ProdutoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,10 +14,12 @@ public class ProdutoController {
 
     private final CategoriaService categoriaService;
     private final ProdutoService produtoService;
+    private final LocalizacaoService localizacaoService;
 
-    public ProdutoController(CategoriaService categoriaService, ProdutoService produtoService) {
+    public ProdutoController(CategoriaService categoriaService, ProdutoService produtoService, LocalizacaoService localizacaoService) {
         this.categoriaService = categoriaService;
         this.produtoService = produtoService;
+        this.localizacaoService = localizacaoService;
     }
 
     // Listar produtos
@@ -34,6 +37,9 @@ public class ProdutoController {
 
         model.addAttribute("categorias",
                 categoriaService.listarCategorias());
+
+        model.addAttribute("localizacoes",
+                localizacaoService.listarLocalizacoes());
 
         return "form-produto";
     }

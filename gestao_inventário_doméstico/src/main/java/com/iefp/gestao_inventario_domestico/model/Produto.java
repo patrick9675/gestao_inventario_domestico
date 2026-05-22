@@ -27,4 +27,8 @@ public class Produto {
     @ManyToOne
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
+
+    @ManyToOne
+    @JoinColumn(name = "localizacao_id")
+    private Localizacao localizacao;
 }

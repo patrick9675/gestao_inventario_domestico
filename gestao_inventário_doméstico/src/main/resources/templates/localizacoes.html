@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Localizações</title>
+</head>
+<body>
+
+<h1>Lista de Localizações</h1>
+
+<a th:href="@{/localizacoes/novo}">
+    Nova Localização
+</a>
+
+<table border="1">
+
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Ações</th>
+    </tr>
+
+    <tr th:each="localizacao : ${localizacoes}">
+
+        <td th:text="${localizacao.id}"></td>
+
+        <td th:text="${localizacao.nome}"></td>
+
+        <td>
+            <a th:href="@{/localizacoes/apagar/{id}(id=${localizacao.id})}">
+                Apagar
+            </a>
+        </td>
+
+    </tr>
+
+</table>
+
+</body>
+</html>
