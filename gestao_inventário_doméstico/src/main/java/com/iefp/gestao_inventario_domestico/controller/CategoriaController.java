@@ -20,27 +20,21 @@ public class CategoriaController {
     @GetMapping
     public String listarCategorias(Model model) {
         model.addAttribute("categorias", categoriaService.listarCategorias());
-        return "categorias";
+        return "redirect:/";
     }
 
-    // Mostrar formulário
-    @GetMapping("/novo")
-    public String mostrarFormulario(Model model) {
-        model.addAttribute("categoria", new Categoria());
-        return "form-categoria";
-    }
 
     // Guardar categoria
     @PostMapping
     public String guardarCategoria(@ModelAttribute Categoria categoria) {
         categoriaService.guardarCategoria(categoria);
-        return "redirect:/categorias";
+        return "redirect:/";
     }
 
     // Apagar categoria
     @GetMapping("/apagar/{id}")
     public String apagarCategoria(@PathVariable Long id) {
         categoriaService.apagarCategoria(id);
-        return "redirect:/categorias";
+        return "redirect:/";
     }
 }

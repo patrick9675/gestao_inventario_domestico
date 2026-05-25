@@ -23,18 +23,9 @@ public class LocalizacaoController {
         model.addAttribute("localizacoes",
                 localizacaoService.listarLocalizacoes());
 
-        return "localizacoes";
+        return "redirect:/";
     }
 
-    // Mostrar formulário
-    @GetMapping("/novo")
-    public String mostrarFormulario(Model model) {
-
-        model.addAttribute("localizacao",
-                new Localizacao());
-
-        return "form-localizacao";
-    }
 
     // Guardar localização
     @PostMapping
@@ -43,7 +34,7 @@ public class LocalizacaoController {
 
         localizacaoService.guardarLocalizacao(localizacao);
 
-        return "redirect:/localizacoes";
+        return "redirect:/";
     }
 
     // Apagar localização
@@ -52,6 +43,6 @@ public class LocalizacaoController {
 
         localizacaoService.apagarLocalizacao(id);
 
-        return "redirect:/localizacoes";
+        return "redirect:/";
     }
 }

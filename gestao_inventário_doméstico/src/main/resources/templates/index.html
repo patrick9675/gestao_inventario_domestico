@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>HomeStock</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<h1>HomeStock - Inventário Doméstico</h1>
+
+<!-- PRODUTOS -->
+
+<div class="section">
+
+    <h2>Produtos</h2>
+
+    <!-- FORMULÁRIO PRODUTO -->
+
+    <form th:action="@{/produtos}"
+          th:object="${produto}"
+          method="post">
+
+        <input type="text"
+               th:field="*{nome}"
+               placeholder="Nome do produto"
+               required>
+
+        <input type="number"
+               th:field="*{quantidade}"
+               placeholder="Quantidade"
+               required>
+
+        <input type="date"
+               th:field="*{dataValidade}">
+
+        <!-- CATEGORIA -->
+
+        <select th:field="*{categoria}" required>
+
+            <option value="">
+                Selecionar Categoria
+            </option>
+
+            <option th:each="categoria : ${categorias}"
+                    th:value="${categoria.id}"
+                    th:text="${categoria.nome}">
+            </option>
+
+        </select>
+
+        <!-- LOCALIZAÇÃO -->
+
+        <select th:field="*{localizacao}" required>
+
+            <option value="">
+                Selecionar Localização
+            </option>
+
+            <option th:each="localizacao : ${localizacoes}"
+                    th:value="${localizacao.id}"
+                    th:text="${localizacao.nome}">
+            </option>
+
+        </select>
+
+        <button type="submit">
+            Adicionar Produto
+        </button>
+
+    </form>
+
+    <br>
+
+    <!-- TABELA PRODUTOS -->
+
+    <table>
+
+        <tr>
+            <th>Nome</th>
+            <th>Quantidade</th>
+            <th>Validade</th>
+            <th>Categoria</th>
+            <th>Localização</th>
+            <th>Ações</th>
+        </tr>
+
+        <tr th:each="produto : ${produtos}">
+
+            <td th:text="${produto.nome}"></td>
+
+            <td th:text="${produto.quantidade}"></td>
+
+            <td th:text="${produto.dataValidade}"></td>
+
+            <td th:text="${produto.categoria.nome}"></td>
+
+            <td th:text="${produto.localizacao.nome}"></td>
+
+            <td>
+
+                <a th:href="@{/produtos/apagar/{id}(id=${produto.id})}">
+                    Apagar
+                </a>
+
+            </td>
+
+        </tr>
+
+    </table>
+
+</div>
+
+
+<!-- CATEGORIAS -->
+
+<div class="section">
+
+    <h2>Categorias</h2>
+
+    <!-- FORMULÁRIO CATEGORIA -->
+
+    <form th:action="@{/categorias}"
+          method="post">
+
+        <input type="text"
+               name="nome"
+               placeholder="Nova categoria"
+               required>
+
+        <button type="submit">
+            Adicionar Categoria
+        </button>
+
+    </form>
+
+    <br>
+
+    <!-- LISTA CATEGORIAS -->
+
+    <ul>
+
+        <li th:each="categoria : ${categorias}">
+
+            <span th:text="${categoria.nome}"></span>
+
+            -
+
+            <a th:href="@{/categorias/apagar/{id}(id=${categoria.id})}">
+                Apagar
+            </a>
+
+        </li>
+
+    </ul>
+
+</div>
+
+<!-- LOCALIZAÇÕES -->
+
+<div class="section">
+
+    <h2>Localizações</h2>
+
+    <!-- FORMULÁRIO LOCALIZAÇÃO -->
+
+    <form th:action="@{/localizacoes}"
+          method="post">
+
+        <input type="text"
+               name="nome"
+               placeholder="Nova localização"
+               required>
+
+        <button type="submit">
+            Adicionar Localização
+        </button>
+
+    </form>
+
+    <br>
+
+    <!-- LISTA LOCALIZAÇÕES -->
+
+    <ul>
+
+        <li th:each="localizacao : ${localizacoes}">
+
+            <span th:text="${localizacao.nome}"></span>
+
+            -
+
+            <a th:href="@{/localizacoes/apagar/{id}(id=${localizacao.id})}">
+                Apagar
+            </a>
+
+        </li>
+
+    </ul>
+
+</div>
+
+</body>
+</html>
