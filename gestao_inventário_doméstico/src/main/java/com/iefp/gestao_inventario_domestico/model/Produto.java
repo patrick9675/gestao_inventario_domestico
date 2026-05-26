@@ -31,4 +31,34 @@ public class Produto {
     @ManyToOne
     @JoinColumn(name = "localizacao_id")
     private Localizacao localizacao;
+
+    public boolean expirado() {
+
+        if (dataValidade == null) {
+            return false;
+        }
+
+        return dataValidade.isBefore(LocalDate.now());
+    }
+
+    public boolean alerta3Dias() {
+
+        if (dataValidade == null) {
+            return false;
+        }
+
+        return !expirado()
+                && dataValidade.isBefore(LocalDate.now().plusDays(3));
+    }
+
+    public boolean alerta7Dias() {
+
+        if (dataValidade == null) {
+            return false;
+        }
+
+        return !expirado()
+                && !alerta3Dias()
+                && dataValidade.isBefore(LocalDate.now().plusDays(7));
+    }
 }

@@ -26,35 +26,21 @@ public class ProdutoController {
     @GetMapping
     public String listarProdutos(Model model) {
         model.addAttribute("produtos", produtoService.listarProdutos());
-        return "produtos";
+        return "redirect:/";
     }
 
-    // Mostrar formulário
-    @GetMapping("/novo")
-    public String mostrarFormulario(Model model) {
-
-        model.addAttribute("produto", new Produto());
-
-        model.addAttribute("categorias",
-                categoriaService.listarCategorias());
-
-        model.addAttribute("localizacoes",
-                localizacaoService.listarLocalizacoes());
-
-        return "form-produto";
-    }
 
     // Guardar produto
     @PostMapping
     public String guardarProduto(@ModelAttribute Produto produto) {
         produtoService.guardarProduto(produto);
-        return "redirect:/produtos";
+        return "redirect:/";
     }
 
     // Apagar produto
     @GetMapping("/apagar/{id}")
     public String apagarProduto(@PathVariable Long id) {
         produtoService.apagarProduto(id);
-        return "redirect:/produtos";
+        return "redirect:/";
     }
 }

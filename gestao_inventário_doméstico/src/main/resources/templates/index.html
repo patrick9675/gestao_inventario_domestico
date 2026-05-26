@@ -83,10 +83,20 @@
             <th>Validade</th>
             <th>Categoria</th>
             <th>Localização</th>
+            <th>Alerta</th>
             <th>Ações</th>
         </tr>
 
-        <tr th:each="produto : ${produtos}">
+        <tr th:each="produto : ${produtos}"
+
+            th:style="${produto.expirado()} ?
+            'background-color: #ffb3b3;' :
+
+            (${produto.alerta3Dias()} ?
+            'background-color: #ff9999;' :
+
+            (${produto.alerta7Dias()} ?
+            'background-color: #fff3cd;' : ''))">
 
             <td th:text="${produto.nome}"></td>
 
@@ -97,6 +107,26 @@
             <td th:text="${produto.categoria.nome}"></td>
 
             <td th:text="${produto.localizacao.nome}"></td>
+
+            <!-- ALERTAS -->
+
+            <td>
+
+                <span th:if="${produto.expirado()}">
+                    Produto expirado
+                </span>
+
+                <span th:if="${produto.alerta3Dias()}">
+                    Expira em menos de 3 dias
+                </span>
+
+                <span th:if="${produto.alerta7Dias()}">
+                    Expira em menos de 7 dias
+                </span>
+
+            </td>
+
+            <!-- AÇÕES -->
 
             <td>
 
@@ -112,14 +142,11 @@
 
 </div>
 
-
 <!-- CATEGORIAS -->
 
 <div class="section">
 
     <h2>Categorias</h2>
-
-    <!-- FORMULÁRIO CATEGORIA -->
 
     <form th:action="@{/categorias}"
           method="post">
@@ -136,8 +163,6 @@
     </form>
 
     <br>
-
-    <!-- LISTA CATEGORIAS -->
 
     <ul>
 
@@ -163,8 +188,6 @@
 
     <h2>Localizações</h2>
 
-    <!-- FORMULÁRIO LOCALIZAÇÃO -->
-
     <form th:action="@{/localizacoes}"
           method="post">
 
@@ -180,8 +203,6 @@
     </form>
 
     <br>
-
-    <!-- LISTA LOCALIZAÇÕES -->
 
     <ul>
 
