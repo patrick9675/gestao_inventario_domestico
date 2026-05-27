@@ -7,6 +7,8 @@ import com.iefp.gestao_inventario_domestico.service.ProdutoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import java.util.List;
 
 @Controller
 public class HomeController {
@@ -26,15 +28,82 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String home(Model model) {
+    public String home(
 
-        model.addAttribute("produto", new Produto());
+            @RequestParam(required = false) String filtro,
 
-        model.addAttribute("produtos", produtoService.listarProdutos());
+            Model model) {
 
-        model.addAttribute("categorias", categoriaService.listarCategorias());
+        List<Produto> produtos =
+                produtoService.listarProdutos();
 
-        model.addAttribute("localizacoes", localizacaoService.listarLocalizacoes());
+        // FILTROS
+
+        if (filtro != null && !filtro.isEmpty()) {
+
+            // CATEGORIA
+
+            if (filtro.startsWith("categoria-")) {
+
+                Long categoriaId = Long.parseLong(
+                        filtro.replace("categoria-", "")
+                );
+
+                produtos = produtoService
+                        .listarPorCategoria(categoriaId);
+            }
+
+            // LOCALIZAÇÃO
+
+            else if (filtro.startsWith("localizacao-")) {
+
+                Long localizacaoId = Long.parseLong(
+                        filtro.replace("localizacao-", "")
+                );
+
+                produtos = produtoService
+                        .listarPorLocalizacao(localizacaoId);
+            }
+
+            // ALERTA 3 DIAS
+
+            else if (filtro.equals("alerta-3")) {
+
+                produtos = produtos.stream()
+                        .filter(Produto::alerta3Dias)
+                        .toList();
+            }
+
+            // ALERTA 7 DIAS
+
+            else if (filtro.equals("alerta-7")) {
+
+                produtos = produtos.stream()
+                        .filter(Produto::alerta7Dias)
+                        .toList();
+            }
+
+            // EXPIRADOS
+
+            else if (filtro.equals("alerta-expirado")) {
+
+                produtos = produtos.stream()
+                        .filter(Produto::expirado)
+                        .toList();
+            }
+        }
+
+        model.addAttribute("produto",
+                new Produto());
+
+        model.addAttribute("produtos",
+                produtos);
+
+        model.addAttribute("categorias",
+                categoriaService.listarCategorias());
+
+        model.addAttribute("localizacoes",
+                localizacaoService.listarLocalizacoes());
 
         return "index";
     }

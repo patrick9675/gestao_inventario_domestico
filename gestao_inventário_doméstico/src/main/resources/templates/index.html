@@ -73,6 +73,58 @@
 
     <br>
 
+    <!-- FILTROS -->
+
+    <form method="get" th:action="@{/}">
+
+        <select name="filtro">
+
+            <option value="">
+                Selecionar Filtro
+            </option>
+
+            <!-- CATEGORIAS -->
+
+            <option th:each="categoria : ${categorias}"
+                    th:value="|categoria-${categoria.id}|"
+                    th:text="|Categoria: ${categoria.nome}|">
+            </option>
+
+            <!-- LOCALIZAÇÕES -->
+
+            <option th:each="localizacao : ${localizacoes}"
+                    th:value="|localizacao-${localizacao.id}|"
+                    th:text="|Localização: ${localizacao.nome}|">
+            </option>
+
+            <!-- ALERTAS -->
+
+            <option value="alerta-3">
+                Expira em 3 dias
+            </option>
+
+            <option value="alerta-7">
+                Expira em 7 dias
+            </option>
+
+            <option value="alerta-expirado">
+                Produtos Expirados
+            </option>
+
+        </select>
+
+        <button type="submit">
+            Filtrar
+        </button>
+
+        <a th:href="@{/}">
+            Limpar
+        </a>
+
+    </form>
+
+    <br>
+
     <!-- TABELA PRODUTOS -->
 
     <table>

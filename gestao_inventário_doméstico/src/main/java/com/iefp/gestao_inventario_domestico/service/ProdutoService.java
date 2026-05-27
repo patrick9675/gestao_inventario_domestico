@@ -20,6 +20,16 @@ public class ProdutoService {
         return produtoRepository.findAll();
     }
 
+    public List<Produto> listarPorCategoria(Long categoriaId) {
+
+        return produtoRepository.findByCategoriaId(categoriaId);
+    }
+
+    public List<Produto> listarPorLocalizacao(Long localizacaoId) {
+
+        return produtoRepository.findByLocalizacaoId(localizacaoId);
+    }
+
     // Guardar produto
     public Produto guardarProduto(Produto produto) {
         return produtoRepository.save(produto);
