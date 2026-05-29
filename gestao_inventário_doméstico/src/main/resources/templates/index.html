@@ -22,6 +22,8 @@
           th:object="${produto}"
           method="post">
 
+        <input type="hidden" th:field="*{id}">
+
         <input type="text"
                th:field="*{nome}"
                placeholder="Nome do produto"
@@ -67,6 +69,24 @@
 
         <button type="submit">
             Adicionar Produto
+        </button>
+
+    </form>
+
+    <br>
+
+    <!-- PESQUISA -->
+
+    <h3>Pesquisar Produto</h3>
+
+    <form method="get" th:action="@{/}">
+
+        <input type="text"
+               name="pesquisa"
+               placeholder="Pesquisar por nome">
+
+        <button type="submit">
+            Pesquisar
         </button>
 
     </form>
@@ -181,6 +201,12 @@
             <!-- AÇÕES -->
 
             <td>
+
+                <a th:href="@{/produtos/editar/{id}(id=${produto.id})}">
+                    Editar
+                </a>
+
+                |
 
                 <a th:href="@{/produtos/apagar/{id}(id=${produto.id})}">
                     Apagar

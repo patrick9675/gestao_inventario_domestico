@@ -45,4 +45,11 @@ public class ProdutoService {
     public void apagarProduto(Long id) {
         produtoRepository.deleteById(id);
     }
+
+    // Pesquisar produtos por nome
+    public List<Produto> pesquisarPorNome(String nome) {
+
+        return produtoRepository
+                .findByNomeContainingIgnoreCase(nome);
+    }
 }

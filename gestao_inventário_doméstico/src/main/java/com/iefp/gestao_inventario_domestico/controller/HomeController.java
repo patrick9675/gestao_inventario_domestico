@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.List;
 
 @Controller
@@ -31,11 +32,26 @@ public class HomeController {
     public String home(
 
             @RequestParam(required = false) String filtro,
+            @RequestParam(required = false) String pesquisa,
 
             Model model) {
 
         List<Produto> produtos =
                 produtoService.listarProdutos();
+
+        // PESQUISA
+
+        if (pesquisa != null && !pesquisa.isEmpty()) {
+
+            produtos = produtos.stream()
+
+                    .filter(produto ->
+                            produto.getNome()
+                                    .toLowerCase()
+                                    .contains(pesquisa.toLowerCase()))
+
+                    .toList();
+        }
 
         // FILTROS
 
@@ -49,8 +65,14 @@ public class HomeController {
                         filtro.replace("categoria-", "")
                 );
 
-                produtos = produtoService
-                        .listarPorCategoria(categoriaId);
+                produtos = produtos.stream()
+
+                        .filter(produto ->
+                                produto.getCategoria() != null
+                                        && produto.getCategoria().getId()
+                                        .equals(categoriaId))
+
+                        .toList();
             }
 
             // LOCALIZAÇÃO
@@ -61,8 +83,14 @@ public class HomeController {
                         filtro.replace("localizacao-", "")
                 );
 
-                produtos = produtoService
-                        .listarPorLocalizacao(localizacaoId);
+                produtos = produtos.stream()
+
+                        .filter(produto ->
+                                produto.getLocalizacao() != null
+                                        && produto.getLocalizacao().getId()
+                                        .equals(localizacaoId))
+
+                        .toList();
             }
 
             // ALERTA 3 DIAS

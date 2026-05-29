@@ -43,4 +43,27 @@ public class ProdutoController {
         produtoService.apagarProduto(id);
         return "redirect:/";
     }
+
+    // Editar produto
+    @GetMapping("/editar/{id}")
+    public String editarProduto(
+            @PathVariable Long id,
+            Model model) {
+
+        Produto produto =
+                produtoService.buscarPorId(id);
+
+        model.addAttribute("produto", produto);
+
+        model.addAttribute("produtos",
+                produtoService.listarProdutos());
+
+        model.addAttribute("categorias",
+                categoriaService.listarCategorias());
+
+        model.addAttribute("localizacoes",
+                localizacaoService.listarLocalizacoes());
+
+        return "index";
+    }
 }
